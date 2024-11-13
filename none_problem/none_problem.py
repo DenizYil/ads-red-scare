@@ -2,6 +2,7 @@ from networkx import MultiDiGraph, shortest_path
 
 
 def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
+    print(n, m, r, s, t, vertices, edges)
     graph = MultiDiGraph()
 
     directed = False
@@ -13,7 +14,6 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
         else:
             nodes[vertex] = False
 
-    
     for vertex, red in nodes.items():
         graph.add_node(vertex, red=red)
 
@@ -30,7 +30,8 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
         graph = graph.to_undirected()
 
     # Identify red vertices
-    red_vertices = [vertex for vertex, data in graph.nodes(data=True) if data.get('red', True)]
+    red_vertices = [vertex for vertex, data in graph.nodes(
+        data=True) if data.get('red', True)]
 
     graph.remove_nodes_from(red_vertices)
 
@@ -43,5 +44,5 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
     except Exception as e:
         result = '-1'
         print(result)
-        
+
     return result
