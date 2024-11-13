@@ -4,43 +4,37 @@ IS_RED = "is_red"
 EDGES = "edges"
 
 
-def main():
-    n, m, r = [int(i) for i in input().split()]
-    start, terminal = input().split()
+def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
+    if n <= 0 or m <= 0 or s == t:
+        return '-1'
 
-    if n <= 0 or m <= 0 or start == terminal:
-        print(-1)
-        return
-
-    graph = construct_graph(n, m)
+    graph = construct_graph(vertices, edges)
 
     distances = dict.fromkeys(graph, n + 1)
-    distances[start] = graph[start][IS_RED]
-    distances = dijkstra(graph, distances, start)
-    print(distances[terminal] if distances[terminal] <= n else -1)
+    distances[s] = graph[s][IS_RED]
+    distances = dijkstra(graph, distances, s)
+    return distances[t] if distances[t] <= n else '-1'
 
 
-def construct_graph(n, m):
+def construct_graph(vertices, edges):
     graph = {}
-    for i in range(0, n):
-        vertex = input().split()
+    for vertex_line in vertices:
+        vertex = vertex_line.split()
         graph[vertex[0]] = {
             IS_RED: int(len(vertex) > 1),
             EDGES: []
         }
 
     is_directed = True
-    edge = input().split()
-    create_directed_edge(graph, edge[0], edge[2])
-    if edge[1] == "--":
+    first_edge = edges[0].split()
+    if first_edge[1] == "--":
         is_directed = False
-        create_directed_edge(graph, edge[2], edge[0])
 
-    for i in range(0, m - 1):
-        edge = input().split()
-        create_directed_edge(graph, edge[0], edge[2])
+    for edge in edges:
+        current_edge = edge.split()
+        create_directed_edge(graph, current_edge[0], current_edge[2])
         if not is_directed:
-            create_directed_edge(graph, edge[2], edge[0])
+            create_directed_edge(graph, current_edge[2], current_edge[0])
     return graph
 
 
@@ -64,6 +58,3 @@ def dijkstra(graph, distances, start):
                 hq.heappush(pq, (new_distance, edge[1]))
     return distances
 
-
-if __name__ == "__main__":
-    main()
