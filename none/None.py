@@ -1,51 +1,38 @@
-import os
 from networkx import MultiDiGraph, shortest_path
 
-# Clear the results file
-with open('results.txt', 'w') as f:
-        f.write('')
 
+def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
+    graph = MultiDiGraph()
 
-files = [file for file in os.listdir('data') if file.endswith('.txt')]
+    directed = False
+    nodes = {}
+    for vertex in vertices:
+        if vertex.endswith('*'):
+            red_vertex = vertex.removesuffix(' *')
+            nodes[red_vertex] = True
+        else:
+            nodes[vertex] = False
 
-for file in files:
-    path = os.path.join('data', file)
-    with open(path, 'r') as f:
-        n, m, r = [int(x) for x in  f.readline().strip().split()]
-        s, t = f.readline().strip().split()
-        graph = MultiDiGraph()
+    
+    for vertex, red in nodes.items():
+        graph.add_node(vertex, red=red)
 
-        directed = False
-        vertices = {}
-        for _ in range(n):
-            vertex = f.readline().strip()
-            if vertex.endswith('*'):
-                red_vertex = vertex.removesuffix(' *')
-                vertices[red_vertex] = True
-            else:
-                vertices[vertex] = False
+    for edge in edges:
+        if ' -- ' in edge:
+            u, v = edge.strip().split(' -- ')
+            graph.add_edge(u, v, directed=False)
+        elif ' -> ' in edge:
+            u, v = edge.split(' -> ')
+            graph.add_edge(u, v, directed=True)
+            directed = True
 
-        
-        for vertex, red in vertices.items():
-            graph.add_node(vertex, red=red)
+    if not directed:
+        graph = graph.to_undirected()
 
-        for _ in range(m):
-            edge = f.readline()
-            if ' -- ' in edge:
-                u, v = edge.strip().split(' -- ')
-                graph.add_edge(u, v, directed=False)
-            elif ' -> ' in edge:
-                u, v = edge.split(' -> ')
-                graph.add_edge(u, v, directed=True)
-                directed = True
+    # Identify red vertices
+    red_vertices = [vertex for vertex, data in graph.nodes(data=True) if data.get('red', True)]
 
-        if not directed:
-            graph = graph.to_undirected()
-
-        # Identify red vertices
-        red_vertices = [vertex for vertex, data in graph.nodes(data=True) if data.get('red', True)]
-
-        graph.remove_nodes_from(red_vertices)
+    graph.remove_nodes_from(red_vertices)
 
     result = ''
     try:
@@ -54,13 +41,7 @@ for file in files:
         result = str(len(path) - 1)
         print(result)
     except Exception as e:
-        path = "No path"
         result = '-1'
         print(result)
-    
-    with open('results.txt', 'a') as f:
-        f.write(f'{file}: {result} {path}\n')
         
-
-    
-    
+    return result
