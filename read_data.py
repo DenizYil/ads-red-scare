@@ -13,19 +13,21 @@ results = []
 for file in files:
     result = []
     with open(path + file) as f:
-        print(f)
-        n, m, r = [int(i) for i in f.readline().split()]
-        start, terminal = [str(i) for i in f.readline().split()]
+        lines = f.readlines()
+
+        n, m, r = [int(i) for i in lines[0].split()]
+        start, terminal = lines[1].split()
 
         vertices = []
         edges = []
-        for i in range(2, 2+n):
-            vertices.append(str(f.readline()))
-        # for j in range(n+4, len(lines)):
-        #    edges.append(lines[j])
+        for i in range(2, n):
+            vertices.append(lines[i].strip())
+        for j in range(n, m):
+            edges.append(lines[j].strip())
 
         result.append(none_solve(n, m, r, start, terminal, vertices, edges))
         # result.append(few_solve(n, m, r, start, terminal, vertices, edges))
 
     results.append(result)
-    break
+
+print(results)

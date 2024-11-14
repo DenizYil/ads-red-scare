@@ -39,7 +39,8 @@ def construct_graph(vertices, edges):
 
 
 def create_directed_edge(graph, vertex_start, vertex_end):
-    graph[vertex_start][EDGES].append((vertex_start, vertex_end, graph[vertex_end][IS_RED]))
+    graph[vertex_start][EDGES].append(
+        (vertex_start, vertex_end, graph[vertex_end][IS_RED]))
 
 
 def dijkstra(graph, distances, start):
@@ -57,4 +58,3 @@ def dijkstra(graph, distances, start):
                 distances[edge[1]] = new_distance
                 hq.heappush(pq, (new_distance, edge[1]))
     return distances
-

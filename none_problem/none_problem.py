@@ -2,7 +2,7 @@ from networkx import MultiDiGraph, shortest_path
 
 
 def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
-    print(n, m, r, s, t, vertices, edges)
+    # print(n, m, r, s, t, vertices, edges)
     graph = MultiDiGraph()
 
     directed = False
@@ -40,9 +40,8 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
         path = shortest_path(graph, source=s, target=t)
         # Subtract 1 from the number of nodes in the path to get the number of edges
         result = str(len(path) - 1)
-        print(result)
     except Exception as e:
         result = '-1'
-        print(result)
 
+ #   print(result)
     return result
