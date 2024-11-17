@@ -2,11 +2,12 @@ import os
 
 from none_problem.none_problem import solve as none_solve
 from few.few import solve as few_solve
+from tabulate import tabulate
+
 # import OS module
 # Get the list of all files and directories
 path = "./data/"
 dir_list = os.listdir(path)
-
 
 files = [file for file in os.listdir(path)]
 results = []
@@ -20,14 +21,26 @@ for file in files:
 
         vertices = []
         edges = []
-        for i in range(2, n):
-            vertices.append(lines[i].strip())
-        for j in range(n, m):
-            edges.append(lines[j].strip())
+        for i in range(0, n):
+            vertices.append(lines[i + 2].strip())
+        for j in range(0, m):
+            edges.append(lines[j + n + 2].strip())
 
+        # Instance name
+        result.append(file)
+        result.append(n)
+        # Alternate
+        result.append('-')
+        # Few
+        result.append(few_solve(n, m, r, start, terminal, vertices, edges))
+        # Many
+        result.append('-')
+        # None
         result.append(none_solve(n, m, r, start, terminal, vertices, edges))
-        # result.append(few_solve(n, m, r, start, terminal, vertices, edges))
+        # Some
+        result.append('-')
 
     results.append(result)
-
-print(results)
+out = open('results.txt', 'w', encoding='utf-8')
+out.write(tabulate(results, headers=['Instance name', 'n', 'A', 'F', 'M', 'N', 'S'], tablefmt='fancy_grid'))
+out.close()
