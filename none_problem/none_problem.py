@@ -1,5 +1,5 @@
 from networkx import MultiDiGraph, shortest_path
-
+import os
 
 def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
     # print(n, m, r, s, t, vertices, edges)
@@ -45,3 +45,20 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
 
  #   print(result)
     return result
+
+
+if __name__ == '__main__':
+    path = "./data/wall-n-10000.txt"
+    with open(path) as f:
+        lines = f.readlines()
+
+        n, m, r = [int(i) for i in lines[0].split()]
+        start, terminal = lines[1].split()
+
+        vertices = []
+        edges = []
+        for i in range(0, n):
+            vertices.append(lines[i + 2].strip())
+        for j in range(0, m):
+            edges.append(lines[j + n + 2].strip())
+    solve(n, m, r, start, terminal, vertices, edges)

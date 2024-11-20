@@ -2,6 +2,7 @@ import os
 
 from none_problem.none_problem import solve as none_solve
 from few.few import solve as few_solve
+from alternate.alternate import solve as alternate_solve
 from tabulate import tabulate
 
 # import OS module
@@ -30,7 +31,7 @@ for file in files:
         result.append(file)
         result.append(n)
         # Alternate
-        result.append('-')
+        result.append(alternate_solve(n, m, r, start, terminal, vertices, edges))
         # Few
         result.append(few_solve(n, m, r, start, terminal, vertices, edges))
         # Many
