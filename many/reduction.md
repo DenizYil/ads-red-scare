@@ -1,5 +1,6 @@
 # Many reduction
 Here is the reduction *Longest path* $<_p$ *Many*.
+
 **Claim**: Many is NP-hard
 
 
