@@ -3,6 +3,8 @@ import os
 from none_problem.none_problem import solve as none_solve
 from few.few import solve as few_solve
 from alternate.alternate import solve as alternate_solve
+from some.some import solve as some_solve
+from many.many import solve as many_solve
 from tabulate import tabulate
 
 # import OS module
@@ -35,11 +37,11 @@ for file in files:
         # Few
         result.append(few_solve(n, m, r, start, terminal, vertices, edges))
         # Many
-        result.append('-')
+        result.append(many_solve(n, m, r, start, terminal, vertices, edges))
         # None
         result.append(none_solve(n, m, r, start, terminal, vertices, edges))
         # Some
-        result.append('-')
+        result.append(some_solve(n, m, r, start, terminal, vertices, edges))
 
     results.append(result)
 out = open('results.txt', 'w', encoding='utf-8')
