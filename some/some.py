@@ -36,7 +36,7 @@ def solve(n: int, m: int, r: int, start: str, terminal: str, vertices: list[str]
 			u, v = edge.strip().split(' -- ')
 			graph.add_edge(u+"'", v, directed=True, capacity=1)
 			graph.add_edge(v+"'", u, directed=True, capacity=1)
-		elif ' --> ' in edge:
+		elif ' -> ' in edge:
 			return "?!"
 
 	start_ = start+"_"			# The new Start and Sink, added for network flow
