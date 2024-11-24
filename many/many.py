@@ -1,8 +1,8 @@
-from networkx import MultiDiGraph, all_simple_paths, is_directed_acyclic_graph
-
+from networkx import DiGraph, is_directed_acyclic_graph
+from collections import defaultdict, deque
 
 def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
-    graph = MultiDiGraph()
+    graph = DiGraph()
 
     # Parse nodes and their properties
     nodes = {}
@@ -34,23 +34,33 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
     if not is_directed_acyclic_graph(graph):
         return '-1'
 
-    try:
-        paths = list(all_simple_paths(graph, source=s, target=t))
-    except Exception:
-        return '-1'
-
+    # BFS
+    queue = deque([(s, 0)]) 
     max_red_count = -1
+    visited = defaultdict(lambda: -1)
+    
+    red_nodes = {node for node, red in nodes.items() if red}
+    
+    while queue:
+        node, red_count = queue.popleft()
+        
+        if red_count <= visited[node]:
+            continue
+        visited[node] = red_count
+        
+        for neighbor in graph.neighbors(node):
+            if neighbor == t: 
+                max_red_count = max(max_red_count, red_count)
+            elif neighbor not in {s, t}:
+                queue.append((neighbor, red_count + (1 if neighbor in red_nodes else 0)))
+    
+    return str(max_red_count if max_red_count != -1 else -1)
 
-    for path in paths:
-        red_count = sum(
-            1 for node in path[1:-1] if graph.nodes[node].get('red', False)
-        )
-        max_red_count = max(max_red_count, red_count)
 
-    return str(max_red_count)
 
 if __name__ == '__main__':
-    path = "./data/wall-n-10000.txt"
+    print("hit here")
+    path = "./data/increase-n500-3.txt"
     with open(path) as f:
         lines = f.readlines()
 
@@ -63,4 +73,5 @@ if __name__ == '__main__':
             vertices.append(lines[i + 2].strip())
         for j in range(0, m):
             edges.append(lines[j + n + 2].strip())
-    solve(n, m, r, start, terminal, vertices, edges)
+	
+    print(solve(n, m, r, start, terminal, vertices, edges))
