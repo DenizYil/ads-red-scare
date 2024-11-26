@@ -32,7 +32,7 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
 
     # only if its DAG
     if not is_directed_acyclic_graph(graph):
-        return '-1'
+        return '?!'
 
     # BFS
     queue = deque([(s, 0)]) 

@@ -37,7 +37,7 @@ for file in files:
         # Few
         result.append(few_solve(n, m, r, start, terminal, vertices, edges))
         # Many
-        result.append("None")
+        result.append(many_solve(n, m, r, start, terminal, vertices, edges))
         # None
         result.append(none_solve(n, m, r, start, terminal, vertices, edges))
         # Some
