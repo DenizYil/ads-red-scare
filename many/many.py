@@ -68,7 +68,6 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
 
 
 if __name__ == '__main__':
-    print("hit here")
     path = "./data/increase-n500-3.txt"
     with open(path) as f:
         lines = f.readlines()
