@@ -53,8 +53,17 @@ def solve(n, m, r, s, t, vertices: list[str], edges: list[str]) -> str:
                 max_red_count = max(max_red_count, red_count)
             elif neighbor not in {s, t}:
                 queue.append((neighbor, red_count + (1 if neighbor in red_nodes else 0)))
+
+    if max_red_count == -1:
+        return '-1'
     
-    return str(max_red_count if max_red_count != -1 else -1)
+    if s in red_nodes:
+        max_red_count = max_red_count + 1
+
+    if t in red_nodes:
+        max_red_count = max_red_count + 1
+    
+    return str(max_red_count)
 
 
 
